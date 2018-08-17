@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "pathname": "/api/auth/**",
+      "pathname": "/api/**",
       "dest": "auth.staging.sketch.sh"
     },
     {
