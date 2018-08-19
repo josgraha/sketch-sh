@@ -1,7 +1,7 @@
 type state = {
   editor: ref(option(CodeMirror.editor)),
   lineWidgets: ref(list(CodeMirror.LineWidget.t)),
-  codeBlockWidgets: array(Editor_CodeBlockTypes.Widget.t),
+  codeBlockWidgets: array(Editor_Types.Widget.t),
   firstLineNumber: int,
 };
 
@@ -66,7 +66,7 @@ let make =
                   Belt.Array.reduceU(
                     [],
                     (. acc, w) => {
-                      open Editor_CodeBlockTypes.Widget;
+                      open Editor_Types.Widget;
                       open Editor_LineWidget;
                       let {lw_line: line, lw_data} = w;
                       let newLineWidget =

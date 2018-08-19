@@ -1,8 +1,20 @@
+module Widget = {
+  type lineWidgetData =
+    | Lw_Error(string)
+    | Lw_Warning(string)
+    | Lw_Value(string)
+    | Lw_Stdout(string);
+  type t = {
+    lw_line: int,
+    lw_data: lineWidgetData,
+  };
+};
+
 module Block = {
   type bcode = {
     bc_value: string,
     bc_firstLineNumber: int,
-    bc_widgets: array(Editor_CodeBlockTypes.Widget.t),
+    bc_widgets: array(Widget.t),
   };
 
   type id = string;

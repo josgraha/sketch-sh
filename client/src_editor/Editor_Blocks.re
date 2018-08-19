@@ -2,7 +2,7 @@
 Modules.require("./Editor_Blocks.css");
 
 open Utils;
-open Editor_CodeBlockTypes;
+open Editor_Types;
 open Editor_Types.Block;
 
 type action =
@@ -258,10 +258,7 @@ let make =
                             let currentWidgets = bcode.bc_widgets;
                             currentWidgets
                             ->(
-                                Belt.Array.keepU(
-                                  (.
-                                    {Editor_CodeBlockTypes.Widget.lw_line, _},
-                                  ) =>
+                                Belt.Array.keepU((. {Widget.lw_line, _}) =>
                                   lw_line < removeWidgetBelowMe
                                 )
                               );
