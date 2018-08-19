@@ -463,10 +463,10 @@ let make =
                     <button
                       className=(
                         Cn.make([
-                          "block__controls--langButton",
+                          "block__controls--langButton block__controls--langButton-RE",
                           Cn.ifTrue(
                             bc_lang == RE,
-                            "blocks__controls--langButton--active",
+                            "block__controls--langButton-active",
                           ),
                         ])
                       )>
@@ -475,10 +475,10 @@ let make =
                     <button
                       className=(
                         Cn.make([
-                          "block__controls--langButton",
+                          "block__controls--langButton block__controls--langButton-ML",
                           Cn.ifTrue(
                             bc_lang == ML,
-                            "blocks__controls--langButton--active",
+                            "block__controls--langButton-active",
                           ),
                         ])
                       )>
