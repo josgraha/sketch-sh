@@ -194,7 +194,10 @@ let make =
             Belt.Array.reduceU([], (. acc, {b_id, b_data}) =>
               switch (b_data) {
               | B_Text(_) => acc
-              | B_Code({bc_value}) => [(b_id, bc_value), ...acc]
+              | B_Code({bc_value, bc_lang}) => [
+                  (b_id, bc_lang, bc_value),
+                  ...acc,
+                ]
               }
             )
           )
@@ -443,9 +446,7 @@ let make =
                     let b_data =
                       switch (b_data) {
                       | B_Text(_) => b_data
-                      | B_Code(bcode) =>
-                        Js.log("Reach new state");
-                        B_Code({...bcode, bc_lang: lang});
+                      | B_Code(bcode) => B_Code({...bcode, bc_lang: lang})
                       };
                     {b_id, b_data};
                   };
