@@ -15,7 +15,8 @@ type action =
   | Block_UpdateValue(id, string, CodeMirror.EditorChange.t)
   | Block_AddWidgets(id, array(Widget.t))
   | Block_FocusUp(id)
-  | Block_FocusDown(id);
+  | Block_FocusDown(id)
+  | Block_ToggleLang(id, Block.lang);
 
 type state = {
   blocks: array(block),
@@ -123,7 +124,8 @@ let make =
 
         | Block_Add(_, _)
         | Block_Delete(_)
-        | Block_UpdateValue(_, _, _) => onUpdate(newSelf.state.blocks)
+        | Block_UpdateValue(_, _, _)
+        | Block_ToggleLang(_, _) => onUpdate(newSelf.state.blocks)
         }
       };
     },
@@ -425,6 +427,32 @@ let make =
           focusedBlock: Some((lowerBlockId, blockTyp, FcTyp_BlockFocusDown)),
         })
       };
+    | Block_ToggleLang(blockId, lang) =>
+      ReasonReact.Update({
+        ...state,
+        preferLang: lang,
+        blocks:
+          state.blocks
+          ->Belt.Array.mapU(
+              (
+                (. blockContent) => {
+                  let {b_id, b_data} = blockContent;
+                  if (b_id != blockId) {
+                    blockContent;
+                  } else {
+                    let b_data =
+                      switch (b_data) {
+                      | B_Text(_) => b_data
+                      | B_Code(bcode) =>
+                        Js.log("Reach new state");
+                        B_Code({...bcode, bc_lang: lang});
+                      };
+                    {b_id, b_data};
+                  };
+                }
+              ),
+            ),
+      })
     },
   render: ({send, state}) =>
     <>
@@ -469,7 +497,8 @@ let make =
                             "block__controls--langButton-active",
                           ),
                         ])
-                      )>
+                      )
+                      onClick=(_ => send(Block_ToggleLang(b_id, RE)))>
                       "RE"->str
                     </button>
                     <button
@@ -481,7 +510,8 @@ let make =
                             "block__controls--langButton-active",
                           ),
                         ])
-                      )>
+                      )
+                      onClick=(_ => send(Block_ToggleLang(b_id, ML)))>
                       "ML"->str
                     </button>
                   </div>

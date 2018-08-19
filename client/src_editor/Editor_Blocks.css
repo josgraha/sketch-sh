@@ -16,6 +16,7 @@
 }
 
 .block__controls--langButton {
+  cursor: pointer;
   padding: var(--space1);
   border: 0;
   outline: 0;
